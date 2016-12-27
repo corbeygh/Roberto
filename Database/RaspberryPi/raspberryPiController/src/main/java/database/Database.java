@@ -44,13 +44,10 @@ public class Database {
                     System.out.println("TypeOfRequest: "+typeOfRequest+" "+ "State: "+state+" "+ "ID: "+id);
 
                     //Turn pin On/Off
+                    initPins();
+                    if(state) led.high();
+                    else led.low();
 
-                    if(state){
-                        initPins();
-                        led.high();
-                    }
-                    else
-                        led.low();
                     postLog(typeOfRequest, state);
                     //then remove the state at id 1
                     removeID(id);
