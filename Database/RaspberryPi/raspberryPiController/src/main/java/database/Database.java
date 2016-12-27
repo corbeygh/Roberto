@@ -13,8 +13,6 @@ import java.util.*;
  */
 public class Database {
 
-
-
     final static String requestsTableName = "requests";
     final static String logsTableName = "logs";
 
@@ -35,6 +33,7 @@ public class Database {
             ArrayList<Request> requestHolder = new ArrayList<Request>();
             requestHolder = get();
             //For the next 60 seconds process requests, then continue to wait for anymore requests
+
             while (timer.hasFinished()) {
 
                 if(requestHolder.size() != 0){
@@ -45,9 +44,11 @@ public class Database {
                     System.out.println("TypeOfRequest: "+typeOfRequest+" "+ "State: "+state+" "+ "ID: "+id);
 
                     //Turn pin On/Off
-                    initPins();
-                    if(state)
+
+                    if(state){
+                        initPins();
                         led.high();
+                    }
                     else
                         led.low();
                     postLog(typeOfRequest, state);
@@ -138,24 +139,7 @@ public class Database {
     private void initPins(){
         if(led == null){
             GpioController gpio = GpioFactory.getInstance();
-            led = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "led", PinState.LOW);
-        }
-        if(frontLeft == null){
-            GpioController gpio = GpioFactory.getInstance();
-            frontLeft = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "frontLeft", PinState.LOW);
-        }
-        if(frontRight == null){
-            GpioController gpio = GpioFactory.getInstance();
-            frontRight = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "frontRight", PinState.LOW);
-        }
-        if(backLeft == null){
-            GpioController gpio = GpioFactory.getInstance();
-            backLeft = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "backLeft", PinState.LOW);
-        }
-        //---
-        if(backRight == null){
-            GpioController gpio = GpioFactory.getInstance();
-            backRight = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "backRight", PinState.LOW);
+            led = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "led", PinState.LOW);
         }
     }
 
